@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+
+DOSYT_LIB_DIR=/var/lib/dosyt
+DOSYT_USER="dosyt"
+DOSYT_GROUP="dosyt"
+
+case "${1}" in
+    remove)
+        deluser --quiet --system $DOSYT_USER || true
+        delgroup --quiet --system --only-if-empty $DOSYT_GROUP || true
+        ;;
+
+    purge)
+        if [ -d "$DOSYT_LIB_DIR" ]; then
+            rm -rf $DOSYT_LIB_DIR
+        fi
+        ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+
+esac
+
+#DEBHELPER#
+
+exit 0

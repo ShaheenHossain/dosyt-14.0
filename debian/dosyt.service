@@ -1,0 +1,14 @@
+[Unit]
+Description=Dosyt Open Source ERP and CRM
+After=network.target
+
+[Service]
+Type=simple
+User=dosyt
+Group=dosyt
+ExecStart=/usr/bin/dosyt --config /etc/dosyt/dosyt.conf --logfile /var/log/dosyt/dosyt-server.log
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+

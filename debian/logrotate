@@ -1,0 +1,5 @@
+/var/log/dosyt/*.log {
+    copytruncate
+    missingok
+    notifempty
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dosyt>
+    <data noupdate="1">
+
+        <record id="payment.payment_acquirer_dosyt_by_adyen" model="payment.acquirer">
+            <field name="name">Dosyt Payments by Adyen</field>
+            <field name="image_128" type="base64" file="payment_dosyt_by_adyen/static/src/img/dosyt_icon.png"/>
+            <field name="provider">dosyt_adyen</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="view_template_id" ref="dosyt_by_adyen_form"/>
+        </record>
+
+    </data>
+</dosyt>

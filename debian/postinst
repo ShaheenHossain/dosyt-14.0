@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -e
+
+DOSYT_CONFIGURATION_FILE=/etc/dosyt/dosyt.conf
+DOSYT_GROUP="dosyt"
+DOSYT_DATA_DIR=/var/lib/dosyt
+DOSYT_LOG_DIR=/var/log/dosyt
+DOSYT_USER="dosyt"
+
+case "${1}" in
+    configure)
+        if ! getent passwd | grep -q "^dosyt:"; then
+            adduser --system --home $DOSYT_DATA_DIR --quiet --group $DOSYT_USER
+            # Data dir
+            chown $DOSYT_USER:$DOSYT_GROUP $DOSYT_DATA_DIR
+        fi
+        # Register "$DOSYT_USER" as a postgres user with "Create DB" role attribute
+        su - postgres -c "createuser -d -R -S $DOSYT_USER" 2> /dev/null || true
+        # Configuration file
+        chown $DOSYT_USER:$DOSYT_GROUP $DOSYT_CONFIGURATION_FILE
+        chmod 0640 $DOSYT_CONFIGURATION_FILE
+        # Log
+        mkdir -p $DOSYT_LOG_DIR
+        chown $DOSYT_USER:$DOSYT_GROUP $DOSYT_LOG_DIR
+        chmod 0750 $DOSYT_LOG_DIR
+        ;;
+    *)
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0
